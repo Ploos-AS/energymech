@@ -1,0 +1,16 @@
+#!/bin/sh
+set -eu
+
+case "${1:-run}" in
+  run)
+    if [ ! -r "${ENERGYMECH_CONFIG}" ]; then
+      echo "EnergyMech configuration not found: ${ENERGYMECH_CONFIG}" >&2
+      echo "Mount a configuration file under /data or set ENERGYMECH_CONFIG." >&2
+      exit 64
+    fi
+    exec /usr/local/bin/energymech "${ENERGYMECH_CONFIG}"
+    ;;
+  *)
+    exec "$@"
+    ;;
+esac
