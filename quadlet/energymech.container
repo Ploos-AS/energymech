@@ -1,0 +1,16 @@
+[Unit]
+Description=EnergyMech IRC bot
+After=network-online.target
+Wants=network-online.target
+
+[Container]
+Image=ghcr.io/ploos-as/energymech:edge
+ContainerName=energymech
+Volume=%h/.local/share/energymech:/data:Z
+Environment=ENERGYMECH_CONFIG=/data/energymech.conf
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target
