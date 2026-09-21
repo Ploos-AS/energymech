@@ -1,0 +1,9 @@
+services:
+  energymech:
+    image: ghcr.io/ploos-as/energymech:edge
+    container_name: energymech
+    restart: unless-stopped
+    volumes:
+      - ./data:/data
+    environment:
+      ENERGYMECH_CONFIG: /data/energymech.conf
