@@ -11,7 +11,7 @@ RUN apk add --no-cache build-base ca-certificates git linux-headers openssl-dev
 WORKDIR /src
 RUN git clone "${ENERGYMECH_REPO}" . \
     && git checkout --detach "${ENERGYMECH_REF}" \
-    && CFLAGS="-O2 -D__STRICT_ANSI__" ./configure --with-debug \
+    && CFLAGS="-O2 -D__STRICT_ANSI__ -D_DEFAULT_SOURCE" ./configure --with-debug \
     && make -j"$(nproc)"
 
 FROM alpine:${ALPINE_VERSION}
