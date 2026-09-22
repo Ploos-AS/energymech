@@ -13,7 +13,7 @@ set ctimeout 15
 server ircd 6667 @ci
 nick 4242 emechtst
 set servergroup ci
-set userfile /data/mech.passwd
+set userfile mech.passwd
 set ident energymech
 set ircname EnergyMech CI
 set cmdchar .
