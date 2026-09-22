@@ -38,6 +38,9 @@ docker run -d --name "$BOT" --network "$NET" \
   -v "$TMP/data:/data" \
   --user "$(id -u):$(id -g)" \
   "$IMAGE" >/dev/null
+sleep 2
+docker ps -a --filter "name=$BOT"
+docker logs "$BOT" || true
 for i in $(seq 1 45); do
   LOG="$(docker logs "$IRCD" 2>&1 || true)"
   if printf '%s\n' "$LOG" | grep -q 'emechtst'; then
