@@ -8,7 +8,7 @@ case "${1:-run}" in
       echo "Mount a configuration file under /data or set ENERGYMECH_CONFIG." >&2
       exit 64
     fi
-    exec /usr/local/bin/energymech "${ENERGYMECH_CONFIG}"
+    exec /usr/local/bin/energymech -c "${ENERGYMECH_CONFIG}"
     ;;
   *)
     exec "$@"
