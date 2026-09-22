@@ -27,6 +27,8 @@ jobs:
         run: docker build --pull --tag energymech:test .
       - name: Smoke test
         run: sh scripts/smoke-test.sh energymech:test
+      - name: IRC integration test
+        run: sh scripts/irc-integration-test.sh energymech:test
 
   publish:
     if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v'))
