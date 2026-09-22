@@ -37,7 +37,7 @@ RUN apt-get update \
     && groupadd --gid 1000 energymech \
     && useradd --uid 1000 --gid 1000 --home-dir /data --create-home --shell /usr/sbin/nologin energymech
 
-COPY --from=builder /src/energymech /usr/local/bin/energymech
+COPY --from=builder /src/src/energymech /usr/local/bin/energymech
 COPY rootfs/ /
 
 RUN chmod 0755 /usr/local/bin/energymech /usr/local/bin/energymech-entrypoint /usr/local/bin/energymech-healthcheck \
