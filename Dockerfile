@@ -14,8 +14,8 @@ RUN apt-get update \
 WORKDIR /src
 RUN git clone "${ENERGYMECH_REPO}" . \
     && git checkout --detach "${ENERGYMECH_REF}" \
-    && ./configure \
-    && make -j"$(nproc)" CFLAGS="-O2 -DDEBUG"
+    && ./configure --with-debug \
+    && make -j"$(nproc)"
 
 FROM debian:${DEBIAN_VERSION}
 ARG VERSION=0.1.0
