@@ -12,6 +12,7 @@ cat >"$TMP/data/energymech.conf" <<'EOF'
 set ctimeout 15
 set servergroup ci
 server $IRCD_IP 6667 @ci
+set servergroup ci
 nick 4242 emechtst
 set servergroup ci
 set userfile mech.passwd
