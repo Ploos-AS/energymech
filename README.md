@@ -54,7 +54,7 @@ The default configuration path inside the container is `/data/energymech.conf` a
 - [x] GHCR CI workflow
 - [x] Upstream revision validated by CI
 - [x] Runtime IRC integration qualification
-- [ ] First release tag
+- [x] First release tag
 
 ## Licensing
 
