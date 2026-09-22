@@ -52,8 +52,8 @@ The default configuration path inside the container is `/data/energymech.conf` a
 - [x] Podman Quadlet example
 - [x] Static/smoke-test skeleton
 - [x] GHCR CI workflow
-- [ ] Upstream revision validated by CI
-- [ ] Runtime IRC integration qualification
+- [x] Upstream revision validated by CI
+- [x] Runtime IRC integration qualification
 - [ ] First release tag
 
 ## Licensing
