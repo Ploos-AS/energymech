@@ -20,7 +20,14 @@ set cmdchar .
 join #energymech-ci
 set pub 1
 EOF
-chmod 600 "$TMP/data/energymech.conf"
+cat >"$TMP/data/mech.passwd" <<'EOF'
+user	ciowner
+mask	*!*@*
+chan	*
+opt	p0u100
+pass	ci-only-not-a-real-password
+EOF
+chmod 600 "$TMP/data/energymech.conf" "$TMP/data/mech.passwd"
 docker network create "$NET" >/dev/null
 docker run -d --name "$IRCD" --network "$NET" ghcr.io/ergochat/ergo:stable >/dev/null
 for i in $(seq 1 30); do
