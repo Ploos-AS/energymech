@@ -8,7 +8,15 @@ TMP="$(mktemp -d)"
 cleanup(){ docker rm -f "$BOT" "$IRCD" >/dev/null 2>&1 || true; docker network rm "$NET" >/dev/null 2>&1 || true; rm -rf "$TMP"; }
 trap cleanup EXIT INT TERM
 mkdir -p "$TMP/data"
-cat >"$TMP/data/energymech.conf" <<'EOF'
+docker network create "$NET" >/dev/null
+docker run -d --name "$IRCD" --network "$NET" ghcr.io/ergochat/ergo:stable >/dev/null
+for i in $(seq 1 30); do
+  docker logs "$IRCD" 2>&1 | grep -qi 'Server running' && break || true
+  sleep 1
+done
+IRCD_IP="$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' "$IRCD")"
+[ -n "$IRCD_IP" ] || { echo "FAIL: unable to determine IRC server IP" >&2; exit 1; }
+cat >"$TMP/data/energymech.conf" <<EOF
 set ctimeout 15
 set servergroup ci
 server $IRCD_IP 6667 @ci
@@ -30,12 +38,6 @@ opt	p0u100
 pass	ci-only-not-a-real-password
 EOF
 chmod 600 "$TMP/data/energymech.conf" "$TMP/data/mech.passwd"
-docker network create "$NET" >/dev/null
-docker run -d --name "$IRCD" --network "$NET" ghcr.io/ergochat/ergo:stable >/dev/null
-for i in $(seq 1 30); do
-  docker logs "$IRCD" 2>&1 | grep -qi 'server' && break || true
-  sleep 1
-done
 docker run -d --name "$BOT" --network "$NET" \
   -v "$TMP/data:/data" \
   --user "$(id -u):$(id -g)" \
