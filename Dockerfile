@@ -1,15 +1,12 @@
 # syntax=docker/dockerfile:1.7
 
-ARG DEBIAN_VERSION=bookworm-slim
+ARG ALPINE_VERSION=3.22
 
-FROM debian:${DEBIAN_VERSION} AS builder
+FROM alpine:${ALPINE_VERSION} AS builder
 ARG ENERGYMECH_REPO=https://github.com/energymech/energymech.git
 ARG ENERGYMECH_REF=master
 
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-       build-essential ca-certificates git libssl-dev pkg-config \
-    && rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache build-base ca-certificates git linux-headers openssl-dev
 
 WORKDIR /src
 RUN git clone "${ENERGYMECH_REPO}" . \
@@ -17,7 +14,7 @@ RUN git clone "${ENERGYMECH_REPO}" . \
     && ./configure --with-debug \
     && make -j"$(nproc)"
 
-FROM debian:${DEBIAN_VERSION}
+FROM alpine:${ALPINE_VERSION}
 ARG VERSION=0.1.0
 ARG ENERGYMECH_REF=master
 
@@ -31,11 +28,9 @@ LABEL org.opencontainers.image.title="EnergyMech" \
       org.opencontainers.image.revision="${ENERGYMECH_REF}" \
       org.opencontainers.image.licenses="MIT AND LicenseRef-EnergyMech"
 
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends ca-certificates libssl3 tini procps \
-    && rm -rf /var/lib/apt/lists/* \
-    && groupadd --gid 1000 energymech \
-    && useradd --uid 1000 --gid 1000 --home-dir /data --create-home --shell /usr/sbin/nologin energymech
+RUN apk add --no-cache ca-certificates libssl3 tini procps \
+    && addgroup -g 1000 -S energymech \
+    && adduser -u 1000 -S -D -h /data -s /sbin/nologin -G energymech energymech
 
 COPY --from=builder /src/src/energymech /usr/local/bin/energymech
 COPY rootfs/ /
