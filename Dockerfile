@@ -4,7 +4,7 @@ ARG ALPINE_VERSION=3.22
 
 FROM alpine:${ALPINE_VERSION} AS builder
 ARG ENERGYMECH_REPO=https://github.com/energymech/energymech.git
-ARG ENERGYMECH_REF=master
+ARG ENERGYMECH_REF=3210a84d370187b1ef1c6282cf9a46bdd1f876e1
 
 RUN apk add --no-cache build-base ca-certificates git linux-headers openssl-dev
 
@@ -16,7 +16,7 @@ RUN git clone "${ENERGYMECH_REPO}" . \
 
 FROM alpine:${ALPINE_VERSION}
 ARG VERSION=0.1.0
-ARG ENERGYMECH_REF=master
+ARG ENERGYMECH_REF=3210a84d370187b1ef1c6282cf9a46bdd1f876e1
 
 LABEL org.opencontainers.image.title="EnergyMech" \
       org.opencontainers.image.description="Production-oriented OCI packaging of the EnergyMech IRC bot" \
@@ -26,7 +26,7 @@ LABEL org.opencontainers.image.title="EnergyMech" \
       org.opencontainers.image.vendor="Ploos AS" \
       org.opencontainers.image.version="${VERSION}" \
       org.opencontainers.image.revision="${ENERGYMECH_REF}" \
-      org.opencontainers.image.licenses="MIT AND LicenseRef-EnergyMech"
+      org.opencontainers.image.licenses="MIT AND GPL-2.0-or-later"
 
 RUN apk add --no-cache ca-certificates libssl3 tini procps \
     && addgroup -g 1000 -S energymech \
