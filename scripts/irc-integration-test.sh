@@ -10,9 +10,10 @@ trap cleanup EXIT INT TERM
 mkdir -p "$TMP/data"
 cat >"$TMP/data/energymech.conf" <<'EOF'
 set ctimeout 15
-nick 4242 emechtst
 set servergroup ci
 server ircd 6667 @ci
+nick 4242 emechtst
+set servergroup ci
 set userfile mech.passwd
 set ident energymech
 set ircname EnergyMech CI
