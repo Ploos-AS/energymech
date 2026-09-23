@@ -1,0 +1,16 @@
+# Minimal EnergyMech configuration example.
+# Copy to data/energymech.conf and edit before starting the container.
+# Do not commit real IRC passwords, operator credentials, or service tokens.
+
+set ctimeout 60
+
+# Define the IRC network/server list before assigning it to a bot.
+set servergroup example
+server irc.example.net 6667 @example
+
+nick 1 energymech
+set servergroup example
+set userfile mech.passwd
+
+# Add channels and additional bot settings only after reviewing the
+# EnergyMech upstream configuration documentation.
