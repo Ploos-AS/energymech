@@ -11,7 +11,7 @@ RUN apk add --no-cache build-base ca-certificates git linux-headers openssl-dev
 WORKDIR /src
 RUN git clone "${ENERGYMECH_REPO}" . \
     && git checkout --detach "${ENERGYMECH_REF}" \
-    && sed -i '/signal(SIGTERM,sig_term);/c\\\tsignal(SIGTERM,SIG_DFL);' src/main.c \
+    && sed -i 's/signal(SIGTERM,sig_term);/signal(SIGTERM,SIG_DFL);/' src/main.c \
     && CFLAGS="-O2 -D__STRICT_ANSI__ -D_DEFAULT_SOURCE" ./configure --with-debug \
     && make -j"$(nproc)"
 
