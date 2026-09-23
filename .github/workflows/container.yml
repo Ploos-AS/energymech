@@ -25,6 +25,12 @@ jobs:
         run: sh tests/static.sh
       - name: Build test image
         run: docker build --pull --tag energymech:test .
+      - uses: docker/setup-qemu-action@v3
+      - name: Qualify linux/arm/v7 build and runtime
+        run: |
+          docker buildx create --use --name energymech-armv7
+          docker buildx build --platform linux/arm/v7 --load --tag energymech:armv7-test .
+          docker run --rm --platform linux/arm/v7 --entrypoint /usr/local/bin/energymech energymech:armv7-test -v
       - name: Smoke test
         run: sh scripts/smoke-test.sh energymech:test
       - name: IRC integration test
