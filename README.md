@@ -17,10 +17,10 @@ This repository follows the same container conventions used by the other Ploos-A
 ## Image
 
 ```text
-ghcr.io/ploos-as/energymech:edge
+ghcr.io/ploos-as/energymech:0.1.0
 ```
 
-Release images will use semantic version tags after the first qualified release.
+The stable release is also published as `0.1` and `latest`; development builds from `main` use `edge`.
 
 ## Quick start
 
@@ -55,6 +55,15 @@ The default configuration path inside the container is `/data/energymech.conf` a
 - [x] Upstream revision validated by CI
 - [x] Runtime IRC integration qualification
 - [x] First release tag
+
+## M2 roadmap
+
+- Harden the runtime defaults and document the security boundary.
+- Add a safe example configuration with no credentials.
+- Add backup/restore guidance for `/data`.
+- Qualify graceful shutdown and restart/reconnect behaviour.
+- Evaluate `linux/arm/v7` only after build and runtime qualification.
+- Prepare consumption by the LeanPi IRC profile.
 
 ## Licensing
 
