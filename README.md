@@ -22,6 +22,8 @@ ghcr.io/ploos-as/energymech:0.1.0
 
 The stable release is also published as `0.1` and `latest`; development builds from `main` use `edge`.
 
+Qualified OCI architectures are `linux/amd64`, `linux/arm64`, and `linux/arm/v7`.
+
 ## Quick start
 
 Create a data directory and place your EnergyMech configuration there, then run:
@@ -83,7 +85,7 @@ Keep backups protected: `/data` may contain IRC credentials and other secrets. C
 - [x] Add a safe example configuration with no credentials.
 - [x] Add backup/restore guidance and persistence qualification for `/data`.
 - [x] Qualify graceful shutdown and restart/reconnect behaviour.
-- Evaluate `linux/arm/v7` only after build and runtime qualification.
+- [x] Qualify and publish `linux/arm/v7` alongside amd64 and arm64.
 - Prepare consumption by the LeanPi IRC profile.
 
 ## Licensing
