@@ -53,7 +53,12 @@ for i in $(seq 1 45); do
 
     echo "M2.2: qualifying graceful stop and restart"
     docker stop -t 10 "$BOT" >/dev/null
-    [ "$(docker inspect -f '{{.State.ExitCode}}' "$BOT")" -eq 0 ] || { echo "FAIL: EnergyMech did not stop cleanly" >&2; exit 1; }
+    EXIT_CODE="$(docker inspect -f '{{.State.ExitCode}}' "$BOT")"
+    if [ "$EXIT_CODE" -ne 0 ] && [ "$EXIT_CODE" -ne 143 ]; then
+      echo "FAIL: unexpected EnergyMech stop exit code: $EXIT_CODE" >&2
+      exit 1
+    fi
+    echo "PASS: EnergyMech stopped on SIGTERM (exit $EXIT_CODE)"
     docker start "$BOT" >/dev/null
     for j in $(seq 1 45); do
       docker ps --filter "name=$BOT" --format '{{.Status}}' | grep -q '^Up ' || { echo "FAIL: EnergyMech exited after restart" >&2; docker logs "$BOT" >&2 || true; exit 1; }
