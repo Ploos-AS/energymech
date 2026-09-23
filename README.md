@@ -17,7 +17,7 @@ This repository follows the same container conventions used by the other Ploos-A
 ## Image
 
 ```text
-ghcr.io/ploos-as/energymech:0.1.0
+ghcr.io/ploos-as/energymech:0.1.1
 ```
 
 The stable release is also published as `0.1` and `latest`; development builds from `main` use `edge`.
@@ -81,7 +81,7 @@ Keep backups protected: `/data` may contain IRC credentials and other secrets. C
 
 ## M2 roadmap
 
-- Harden the runtime defaults and document the security boundary.
+- [x] Harden the runtime defaults and document the security boundary.
 - [x] Add a safe example configuration with no credentials.
 - [x] Add backup/restore guidance and persistence qualification for `/data`.
 - [x] Qualify graceful shutdown and restart/reconnect behaviour.
@@ -93,7 +93,7 @@ Keep backups protected: `/data` may contain IRC credentials and other secrets. C
 LeanPi should consume this project as an external OCI component rather than rebuilding EnergyMech itself.
 
 - image: `ghcr.io/ploos-as/energymech`
-- stable tag: `0.1.0` (or the matching pinned release selected by LeanPi)
+- stable tag: `0.1.1` (or the matching pinned release selected by LeanPi)
 - development tag: `edge`
 - architectures: `linux/amd64`, `linux/arm64`, `linux/arm/v7`
 - persistent data: `/data`
