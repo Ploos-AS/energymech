@@ -32,6 +32,27 @@ docker compose up -d
 
 The default configuration path inside the container is `/data/energymech.conf` and can be overridden with `ENERGYMECH_CONFIG`.
 
+## Backup and restore
+
+All persistent EnergyMech configuration and state belongs under `/data`. Back up the complete directory while the container is stopped, and restore it as one unit before starting a replacement container.
+
+Example with a bind-mounted `./data` directory:
+
+```sh
+docker compose stop
+tar -C ./data -czf energymech-data-backup.tgz .
+```
+
+Restore into an empty data directory:
+
+```sh
+mkdir -p ./data
+tar -C ./data -xzf energymech-data-backup.tgz
+docker compose up -d
+```
+
+Keep backups protected: `/data` may contain IRC credentials and other secrets. CI qualifies archive/restore integrity and verifies that restored data survives container recreation.
+
 ## Security model
 
 - non-root runtime (`1000:1000`)
@@ -59,9 +80,9 @@ The default configuration path inside the container is `/data/energymech.conf` a
 ## M2 roadmap
 
 - Harden the runtime defaults and document the security boundary.
-- Add a safe example configuration with no credentials.
-- Add backup/restore guidance for `/data`.
-- Qualify graceful shutdown and restart/reconnect behaviour.
+- [x] Add a safe example configuration with no credentials.
+- [x] Add backup/restore guidance and persistence qualification for `/data`.
+- [x] Qualify graceful shutdown and restart/reconnect behaviour.
 - Evaluate `linux/arm/v7` only after build and runtime qualification.
 - Prepare consumption by the LeanPi IRC profile.
 
