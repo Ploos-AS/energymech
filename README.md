@@ -86,7 +86,23 @@ Keep backups protected: `/data` may contain IRC credentials and other secrets. C
 - [x] Add backup/restore guidance and persistence qualification for `/data`.
 - [x] Qualify graceful shutdown and restart/reconnect behaviour.
 - [x] Qualify and publish `linux/arm/v7` alongside amd64 and arm64.
-- Prepare consumption by the LeanPi IRC profile.
+- [x] Prepare consumption by the LeanPi IRC profile.
+
+## LeanPi integration contract
+
+LeanPi should consume this project as an external OCI component rather than rebuilding EnergyMech itself.
+
+- image: `ghcr.io/ploos-as/energymech`
+- stable tag: `0.1.0` (or the matching pinned release selected by LeanPi)
+- development tag: `edge`
+- architectures: `linux/amd64`, `linux/arm64`, `linux/arm/v7`
+- persistent data: `/data`
+- default configuration: `/data/energymech.conf`
+- runtime UID/GID: `1000:1000`
+- health: OCI `HEALTHCHECK`
+- credentials: supplied externally under `/data`; never baked into the image
+
+LeanPi profiles should pin a released image version, create and protect the persistent data directory, install configuration separately from the image, preserve `/data` during upgrades, and use the image health status for validation.
 
 ## Licensing
 
