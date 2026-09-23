@@ -34,6 +34,7 @@ RUN apk add --no-cache ca-certificates libssl3 tini procps \
     && adduser -u 1000 -S -D -h /data -s /sbin/nologin -G energymech energymech
 
 COPY --from=builder /src/src/energymech /usr/local/bin/energymech
+COPY --from=builder /src/LICENSE /usr/share/licenses/energymech/LICENSE
 COPY rootfs/ /
 
 RUN chmod 0755 /usr/local/bin/energymech /usr/local/bin/energymech-entrypoint /usr/local/bin/energymech-healthcheck \
