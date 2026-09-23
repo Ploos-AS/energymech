@@ -1,0 +1,10 @@
+# EnergyMech userfile example.
+# Copy to data/mech.passwd, edit it, and chmod 600 data/mech.passwd.
+# This placeholder deliberately contains no usable credentials.
+#
+# Example structure used by EnergyMech:
+# user	owner
+# mask	*!*@trusted.example
+# chan	*
+# opt	p0u100
+# pass	REPLACE_WITH_A_STRONG_SECRET
