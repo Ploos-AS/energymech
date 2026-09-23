@@ -50,7 +50,25 @@ for i in $(seq 1 45); do
   if printf '%s\n' "$LOG" | grep -q 'emechtst'; then
     echo "PASS: EnergyMech registered with isolated IRC server"
     docker ps --filter "name=$BOT" --format '{{.Status}}' | grep -q '^Up '
-    exit 0
+
+    echo "M2.2: qualifying graceful stop and restart"
+    docker stop -t 10 "$BOT" >/dev/null
+    [ "$(docker inspect -f '{{.State.ExitCode}}' "$BOT")" -eq 0 ] || { echo "FAIL: EnergyMech did not stop cleanly" >&2; exit 1; }
+    docker start "$BOT" >/dev/null
+    for j in $(seq 1 45); do
+      docker ps --filter "name=$BOT" --format '{{.Status}}' | grep -q '^Up ' || { echo "FAIL: EnergyMech exited after restart" >&2; docker logs "$BOT" >&2 || true; exit 1; }
+      NEWLOG="$(docker logs "$IRCD" 2>&1 || true)"
+      COUNT="$(printf '%s\n' "$NEWLOG" | grep -c 'emechtst' || true)"
+      if [ "$COUNT" -ge 2 ]; then
+        echo "PASS: EnergyMech stopped cleanly, restarted, and reconnected"
+        exit 0
+      fi
+      sleep 1
+    done
+    echo "FAIL: EnergyMech did not reconnect after restart" >&2
+    docker logs "$BOT" >&2 || true
+    docker logs "$IRCD" >&2 || true
+    exit 1
   fi
   docker ps --filter "name=$BOT" --format '{{.Status}}' | grep -q '^Up ' || { docker logs "$BOT"; exit 1; }
   sleep 1
